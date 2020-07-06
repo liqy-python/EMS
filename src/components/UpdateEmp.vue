@@ -92,22 +92,29 @@
             }
         },
         methods: {
-            get_emp_id() {
+            get_emp_id(){
                 let emp_id = this.$route.params.id;
-
-                this.$axios.get("http://127.0.0.1:8000/user/emp/"+'${emp_id}').then(res=>{
+                this.$axios.get("http://127.0.0.1:8000/user/emp/"+`${emp_id}`).then(res=>{
                     this.emp = res.data;
                 }).catch(error=>{
-                    this.$message.error("修改错误")
-                });
+                    this.$message.error("错误")
+                })
             },
             updateEmp() {
                 let emp_id = this.$route.params.id;
+                console.log(this.$refs.photo.files[0]);
+                // let photo = this.$refs.photo.files[0];
+                let formData = new FormData();
+                formData.append("emp_name", this.emp_name);
+                formData.append("img", this.$refs.photo.files[0]);
+                formData.append("salary", this.salary);
+                formData.append("age", this.age);
                 this.$axios({
-                    url: "http://127.0.0.1:8000/user/emp/"+'${emp_id}',
-                    method: "put",
+                    url: "http://127.0.0.1:8000/user/emp/"+`${emp_id}`,
+                    method: "post",
+                    data: formData,
                     headers:{
-                        'content-type':'application/x-www-form-urlencoded'
+                        'content-type': 'multipart/form-data'
                     },
                 }).then(res => {
                     console.log(res.data);

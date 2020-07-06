@@ -78,10 +78,11 @@
             del(id){
                 // console.log(id)
                 this.$axios({
-                    url: "http://127.0.0.1:8000/user/emp/"+'${id}',
+                    url: "http://127.0.0.1:8000/user/emp/"+`${id}`,
                     method: "delete",
                 }).then(res => {
                     console.log(res.data);
+                    this.findAllEmp();
                 }).catch(error => {
                     this.$message.error("删除失败")
                 })
